@@ -208,7 +208,7 @@ namespace algebra
         double s{0.000};
         int n{static_cast<int>((matrix).size())};
         if (n == 1)
-            return 1;
+            return matrix[0][0];
         {
             if (n != static_cast<int>(matrix[0].size()))
             {
