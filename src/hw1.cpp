@@ -3,7 +3,8 @@ namespace algebra
 {
 
     Matrix zeros(size_t n, size_t m)
-    {
+    {	if (n==0||m==0)
+		return Matrix{};
         Matrix a;
         {
             if (n < 0 || m < 0)
@@ -21,10 +22,11 @@ namespace algebra
     }
 
     Matrix ones(size_t n, size_t m)
-    {
+    {	if (n==0||m==0)
+		return Matrix{};
         Matrix a;
         {
-            if (n <= 0 || m <= 0)
+            if (n < 0 || m < 0)
             {
                 throw std::logic_error("Eror");
             }
@@ -64,7 +66,9 @@ namespace algebra
     }
 
     void show(const Matrix &matrix)
-    {
+    {	if(matrix.empty())
+		std::cout<<std::endl ;
+	else{
         size_t n{(matrix).size()};
         size_t m{(matrix[0]).size()};
         for (size_t i{}; i < n; i++)
@@ -73,10 +77,13 @@ namespace algebra
                 std::cout << std::setw(10) << std::setprecision(3) << matrix[i][j];
             std::cout << std::endl;
         }
+	}
     }
 
     Matrix multiply(const Matrix &matrix, double c)
-    {
+    {	
+		if (matrix.empty())
+            return Matrix{};
         size_t n{(matrix).size()};
         size_t m{(matrix[0]).size()};
 
@@ -179,7 +186,8 @@ namespace algebra
     }
 
     Matrix minor(const Matrix &matrix, size_t n, size_t m)
-    {
+    {	if (matrix.empty())
+            return Matrix{};
         size_t row{(matrix).size()};
         size_t col{(matrix[0]).size()};
         Matrix a{zeros(row - 1, col - 1)};
@@ -257,7 +265,10 @@ namespace algebra
     }
 
     Matrix ero_swap(const Matrix &matrix, size_t r1, size_t r2)
-    {
+    {	
+		if (matrix.empty()){
+			throw std::logic_error("Error");
+							}
         size_t n{(matrix).size()};
         size_t m{(matrix[0]).size()};
         Matrix a{zeros(n, m)};
@@ -285,7 +296,10 @@ namespace algebra
     }
 
     Matrix ero_multiply(const Matrix &matrix, size_t r, double c)
-    {
+    {	
+		if (matrix.empty()){
+			throw std::logic_error("Error");
+							}
         size_t n{(matrix).size()};
         size_t m{(matrix[0]).size()};
         Matrix a{zeros(n, m)};
@@ -311,7 +325,10 @@ namespace algebra
     }
 
     Matrix ero_sum(const Matrix &matrix, size_t r1, double c, size_t r2)
-    {
+    {	
+		if (matrix.empty()){
+			throw std::logic_error("Error");
+							}
         size_t n{(matrix).size()};
         size_t m{(matrix[0]).size()};
         Matrix a{zeros(n, m)};
@@ -394,6 +411,8 @@ namespace algebra
                         a = ero_swap(a, i, j);
                         break;
                     }
+					if (a[j][j] == 0) 
+						throw std::logic_error("Eror");
             //************************************************************
             for (size_t i{j + 1}; i < n; i++)
             {
